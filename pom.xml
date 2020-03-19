@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>io.github.kingschan1204</groupId>
-    <artifactId>istock</artifactId>
+    <groupId>com.moon</groupId>
+    <artifactId>manager</artifactId>
     <packaging>jar</packaging>
     <version>2.0.5</version>
-    <name>pritice Maven Webapp</name>
+    <name>manager</name>
     <url>http://maven.apache.org</url>
     <!-- 继承父包 -->
     <parent>
@@ -150,7 +150,6 @@
             <artifactId>ant</artifactId>
             <version>1.10.6</version>
         </dependency>
-
 
     </dependencies>
     <dependencyManagement>

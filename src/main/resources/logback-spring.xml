@@ -179,7 +179,7 @@
         <appender-ref ref="TRACE"/>
     </logger>
 
-    <logger name="io.github.kingschan1204.istock.module.spider.schedule.ScheduleThread" level="INFO">
+    <logger name="com.moon.manager.module.spider.schedule.ScheduleThread" level="INFO">
         <appender-ref ref="CORE_LOG"/>
     </logger>
 </configuration>
