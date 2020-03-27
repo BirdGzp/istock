@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>日记</title>
+</head>
+
+<link rel="stylesheet" href="/css/common.css">
+<!-- import Vue before Element -->
+<script src="/plugs/ele/vue.js"></script>
+<!-- import JavaScript -->
+<script src="/plugs/ele/index.js"></script>
+<link rel="stylesheet" href="/plugs/ele/theme/index.css">
+
+
+<body>
+<div id="app">
+
+    <el-container>
+        <el-header>
+            <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal"
+                     active-text-color="#ffd04b" background-color="#545c64">
+                <el-menu-item index="1"><a href="/">工具中心</a></el-menu-item>
+                <el-menu-item index="2"><a href="/manager/daily.html">行程</a></el-menu-item>
+                <el-menu-item index="3"><a href="/manager/scraps.html">随手记</a></el-menu-item>
+                <el-menu-item index="4"><a href="/manager/jargon.html">行话</a></el-menu-item>
+                <el-menu-item index="5"><a href="/manager/diary.html">日记</a></el-menu-item>
+                <el-menu-item index="6"><a href="/manager/finance.html">金融</a></el-menu-item>
+            </el-menu>
+        </el-header>
+
+        <el-container>
+            <!-- Table -->
+            <el-button type="text" @click="dialogTableVisible = true">打开嵌套表格的 Dialog</el-button>
+
+            <el-dialog title="收货地址" :visible.sync="dialogTableVisible">
+                <el-table :data="gridData">
+                    <el-table-column property="date" label="日期" width="150"></el-table-column>
+                    <el-table-column property="name" label="姓名" width="200"></el-table-column>
+                    <el-table-column property="address" label="地址"></el-table-column>
+                </el-table>
+            </el-dialog>
+
+            <!-- Form -->
+            <el-button type="text" @click="dialogFormVisible = true">打开嵌套表单的 Dialog</el-button>
+
+            <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
+                <el-form :model="form">
+                    <el-form-item label="活动名称" :label-width="formLabelWidth">
+                        <el-input v-model="form.name" autocomplete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label="活动区域" :label-width="formLabelWidth">
+                        <el-select v-model="form.region" placeholder="请选择活动区域">
+                            <el-option label="区域一" value="shanghai"></el-option>
+                            <el-option label="区域二" value="beijing"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="dialogFormVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+                </div>
+            </el-dialog>
+
+        </el-container>
+
+    </el-container>
+
+</div>
+</body>
+<script>
+    var Main = {
+        data() {
+            return {
+                gridData: [{
+                    date: '2016-05-02',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                }, {
+                    date: '2016-05-04',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                }, {
+                    date: '2016-05-01',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                }, {
+                    date: '2016-05-03',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                }],
+                dialogTableVisible: false,
+                dialogFormVisible: false,
+                form: {
+                    name: '',
+                    region: '',
+                    date1: '',
+                    date2: '',
+                    delivery: false,
+                    type: [],
+                    resource: '',
+                    desc: ''
+                },
+                formLabelWidth: '120px'
+            };
+        }
+    };
+    var Ctor = Vue.extend(Main)
+    new Ctor().$mount('#app')
+
+</script>
+</html>

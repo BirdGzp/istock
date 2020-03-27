@@ -4,4 +4,7 @@
 *.ipr
 *.iws
 .idea/
-out/
+out/workspace
+.project
+.classpath
+workspace

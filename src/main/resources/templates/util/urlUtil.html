@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>URL 工具类</title>
+</head>
+<link rel="stylesheet" href="/plugs/ele/theme/index.css">
+<link rel="stylesheet" href="/css/common.css">
+<!-- import Vue before Element -->
+<script src="/plugs/ele/vue.js"></script>
+<!-- import JavaScript -->
+<script src="/plugs/ele/index.js"></script>
+
+<body>
+<div id="app">
+
+    <el-container>
+        <el-header>
+            <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal"
+                     active-text-color="#ffd04b" background-color="#545c64">
+                <el-menu-item index="1"><a href="/">工具中心</a></el-menu-item>
+                <el-menu-item index="2"><a href="/manager/daily.html">行程</a></el-menu-item>
+                <el-menu-item index="3"><a href="/manager/scraps.html">随手记</a></el-menu-item>
+                <el-menu-item index="4"><a href="/manager/jargon.html">行话</a></el-menu-item>
+                <el-menu-item index="5"><a href="/manager/diary.html">日记</a></el-menu-item>
+                <el-menu-item index="6"><a href="/manager/finance.html">金融</a></el-menu-item>
+            </el-menu>
+        </el-header>
+
+        <el-container>
+            <el-aside>
+                <el-menu :default-openeds="['1', '1-1', '1-2']" default-active="1-1-1">
+                    <el-submenu index="1">
+                        <template slot="title"><i class="el-icon-menu"></i>开发工具(程序员)</template>
+                        <el-submenu index="1-1">
+                            <template slot="title">字符串</template>
+                            <el-menu-item index="1-1-1">url全家桶</el-menu-item>
+                            <el-menu-item index="1-1-2">
+                                <el-link href="/util/singleStringUtil.html">单字符串</el-link>
+                            </el-menu-item>
+                            <el-menu-item index="1-1-3">
+                                <el-link href="/util/multipleStringUtil.html">多字符串</el-link>
+                            </el-menu-item>
+                            <el-menu-item index="1-1-4">
+                                <el-link href="/util/encryption.html">加解密</el-link>
+                            </el-menu-item>
+                        </el-submenu>
+                        <el-submenu index="1-2">
+                            <template slot="title">自动编码工具</template>
+                            <el-menu-item index="1-2-1">方法级别</el-menu-item>
+                            <el-menu-item index="1-2-2">整条链路</el-menu-item>
+                        </el-submenu>
+                    </el-submenu>
+                    <el-submenu index="2">
+                        <template slot="title"><i class="el-icon-setting"></i>分析工具</template>
+                        <el-menu-item-group>
+                            <template slot="title">分组一</template>
+                            <el-menu-item index="2-1">选项1</el-menu-item>
+                            <el-menu-item index="2-2">选项2</el-menu-item>
+                        </el-menu-item-group>
+                        <el-menu-item-group title="分组2">
+                            <el-menu-item index="2-3">选项3</el-menu-item>
+                        </el-menu-item-group>
+                        <el-submenu index="2-4">
+                            <template slot="title">选项4</template>
+                            <el-menu-item index="2-4-1">选项4-1</el-menu-item>
+                        </el-submenu>
+                    </el-submenu>
+                </el-menu>
+            </el-aside>
+            <el-main>
+                <h1>JSON 格式化</h1>
+                <el-row>
+                    <el-col :span="10">
+                        <el-input
+                                type="textarea"
+                                :rows="20"
+                                height="200px"
+                                v-model="source_json"
+                                placeholder="请输入待编码 json">
+                        </el-input>
+                    </el-col>
+                    <el-col :span="2">
+                        <el-row>
+                            <el-button type="primary" @click="formatJson(source_json, false)">格式化</el-button>
+                        </el-row>
+                        <br/>
+                        <el-row>
+                            <el-button type="primary" @click="formatJson(source_json, true)">压缩</el-button>
+                        </el-row>
+
+                    </el-col>
+                    <el-col :span="10">
+                        <el-input
+                                type="textarea"
+                                :rows="20"
+                                v-model="target_json"
+                                height="200px"
+                                v-model="resource"
+                                placeholder="结果">
+                        </el-input>
+                    </el-col>
+                </el-row>
+
+
+                <h1>URL 编码/解码</h1>
+                <el-row>
+                    <el-col :span="10">
+                        <el-input
+                                type="textarea"
+                                :rows="10"
+                                height="200px"
+                                v-model="source_url"
+                                placeholder="原始URL">
+                        </el-input>
+                    </el-col>
+                    <el-col :span="2">
+                        <el-row>
+                            <el-button type="primary" @click="encode(source_url)">编码</el-button>
+                        </el-row>
+                        <br/>
+                        <el-row>
+                            <el-button type="primary" @click="decode(target_url)">解码</el-button>
+                        </el-row>
+
+                    </el-col>
+                    <el-col :span="10">
+                        <el-input
+                                type="textarea"
+                                :rows="10"
+                                v-model="target_url"
+                                height="200px"
+                                v-model="resource"
+                                placeholder="编码后的url">
+                        </el-input>
+                    </el-col>
+                </el-row>
+
+
+                <h1>base64 加/解密</h1>
+                <el-row>
+                    <el-col :span="10">
+                        <el-input
+                                type="textarea"
+                                :rows="10"
+                                height="200px"
+                                v-model="cipher_text"
+                                placeholder="密文">
+                        </el-input>
+                    </el-col>
+                    <el-col :span="2">
+                        <el-row>
+                            <el-button type="primary" @click="decipher(cipher_text)">解密</el-button>
+                        </el-row>
+                        <br/>
+                        <el-row>
+                            <el-button type="primary" @click="encrypt(plain_text)">加密</el-button>
+                        </el-row>
+                    </el-col>
+                    <el-col :span="10">
+                        <el-input
+                                type="textarea"
+                                :rows="10"
+                                height="200px"
+                                v-model="plain_text"
+                                placeholder="明文">
+                        </el-input>
+                    </el-col>
+                </el-row>
+            </el-main>
+        </el-container>
+
+    </el-container>
+</div>
+</body>
+<script>
+    var vue = new Vue({
+        el: '#app',
+        data: function () {
+            return {
+                source_json: '',
+                target_json: '',
+                source_url: '',
+                target_url: '',
+                cipher_text: '',
+                plain_text: '',
+                activeIndex: '1'
+            }
+        },
+        methods: {
+            encode(source_url) {
+                vue.target_url = encodeURIComponent(source_url);
+            },
+
+            decode(target_url) {
+                vue.source_url = decodeURIComponent(target_url);
+            },
+
+            /** 解密 */
+            decipher(cipher_text) {
+                vue.plain_text = decodeURIComponent(escape(window.atob(cipher_text)));
+            },
+            /** 加密 */
+            encrypt(plain_text) {
+                vue.cipher_text = window.btoa(unescape(encodeURIComponent(plain_text)));
+            },
+
+            formatJson(txt, compress/*是否为压缩模式*/) {/* 格式化JSON源码(对象转换为JSON文本) */
+                var indentChar = '    ';
+                if (/^\s*$/.test(txt)) {
+                    alert('数据为空,无法格式化! ');
+                    return;
+                }
+                try {
+                    var data = eval('(' + txt + ')');
+                } catch (e) {
+                    alert('数据源语法错误,格式化失败! 错误信息: ' + e.description, 'err');
+                    return;
+                }
+                ;
+                var draw = [], last = false, This = this, line = compress ? '' : '\n', nodeCount = 0, maxDepth = 0;
+
+                var notify = function (name, value, isLast, indent/*缩进*/, formObj) {
+                    nodeCount++;/*节点计数*/
+                    for (var i = 0, tab = ''; i < indent; i++) tab += indentChar;/* 缩进HTML */
+                    tab = compress ? '' : tab;/*压缩模式忽略缩进*/
+                    maxDepth = ++indent;/*缩进递增并记录*/
+                    if (value && value.constructor == Array) {/*处理数组*/
+                        draw.push(tab + (formObj ? ('"' + name + '":') : '') + '[' + line);/*缩进'[' 然后换行*/
+                        for (var i = 0; i < value.length; i++)
+                            notify(i, value[i], i == value.length - 1, indent, false);
+                        draw.push(tab + ']' + (isLast ? line : (',' + line)));/*缩进']'换行,若非尾元素则添加逗号*/
+                    } else if (value && typeof value == 'object') {/*处理对象*/
+                        draw.push(tab + (formObj ? ('"' + name + '":') : '') + '{' + line);/*缩进'{' 然后换行*/
+                        var len = 0, i = 0;
+                        for (var key in value) len++;
+                        for (var key in value) notify(key, value[key], ++i == len, indent, true);
+                        draw.push(tab + '}' + (isLast ? line : (',' + line)));/*缩进'}'换行,若非尾元素则添加逗号*/
+                    } else {
+                        if (typeof value == 'string') value = '"' + value + '"';
+                        draw.push(tab + (formObj ? ('"' + name + '":') : '') + value + (isLast ? '' : ',') + line);
+                    }
+                    ;
+                };
+                var isLast = true, indent = 0;
+                notify('', data, isLast, indent, false);
+                vue.target_json = draw.join('');
+            }
+        }
+    });
+</script>
+</html>
