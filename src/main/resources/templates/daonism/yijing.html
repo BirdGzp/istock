@@ -2,9 +2,151 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>其他</title>
 </head>
-<body>
 
+<link rel="stylesheet" href="/css/common.css">
+<!-- import Vue before Element -->
+<script src="/plugs/ele/vue.js"></script>
+<!-- import JavaScript -->
+<script src="/plugs/ele/index.js"></script>
+<link rel="stylesheet" href="/plugs/ele/theme/index.css">
+
+
+<body>
+<div id="app">
+
+    <el-container>
+        <el-header>
+            <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal"
+                     active-text-color="#ffd04b" background-color="#545c64">
+                <el-menu-item index="1"><a href="/">工具中心</a></el-menu-item>
+                <el-menu-item index="2"><a href="/manager/daily.html">行程</a></el-menu-item>
+                <el-menu-item index="3"><a href="/manager/scraps.html">随手记</a></el-menu-item>
+                <el-menu-item index="4"><a href="/manager/jargon.html">行话</a></el-menu-item>
+                <el-menu-item index="5"><a href="/manager/diary.html">日记</a></el-menu-item>
+                <el-menu-item index="6"><a href="/manager/others.html">其他</a></el-menu-item>
+                <el-menu-item index="7"><a href="/daonism/yijing.html">道学</a></el-menu-item>
+            </el-menu>
+        </el-header>
+        <el-container>
+            <el-aside>
+                <el-menu :default-openeds="['1-1', '1-2']" default-active="1-1-1"
+                         @select="selectCatalogue">
+                    <el-submenu index="1">
+                        <template slot="title"><i class="el-icon-menu"></i>易经</template>
+                        <el-submenu index="1-1">
+                            <template slot="title">内容</template>
+                            <el-row v-for="(item) in yiCatalogues">
+                                <el-menu-item :index="'1-1-' + item.id">
+                                    {{item.catalogue}}
+                                </el-menu-item>
+                            </el-row>
+
+                        </el-submenu>
+                        <el-submenu index="1-2">
+                            <template slot="title">相关介绍</template>
+                            <el-menu-item index="1-2-1">test</el-menu-item>
+                            <el-menu-item index="1-2-2">test2</el-menu-item>
+                        </el-submenu>
+                    </el-submenu>
+                    <el-submenu index="2">
+                        <template slot="title"><i class="el-icon-setting"></i>道德经</template>
+                        <el-submenu index="2-1">
+                            <template slot="title">内容</template>
+                            <el-row v-for="(item) in daoCatalogues">
+                                <el-menu-item :index="'2-1-' + item.id">
+                                    {{item.catalogue}}
+                                </el-menu-item>
+                            </el-row>
+
+                        </el-submenu>
+                        <el-submenu index="2-2">
+                            <template slot="title">相关介绍</template>
+                            <el-menu-item index="2-2-1">test</el-menu-item>
+                            <el-menu-item index="2-2-2">test2</el-menu-item>
+                        </el-submenu>
+                    </el-submenu>
+                    <el-submenu index="3">
+                        <template slot="title"><i class="el-icon-setting"></i>黄帝内经</template>
+                        <el-submenu index="3-1">
+                            <template slot="title">内容</template>
+                            <el-row v-for="(item) in huangCatalogues">
+                                <el-menu-item :index="'3-1-' + item.id">
+                                    {{item.catalogue}}
+                                </el-menu-item>
+                            </el-row>
+
+                        </el-submenu>
+                        <el-submenu index="3-2">
+                            <template slot="title">相关介绍</template>
+                            <el-menu-item index="3-2-1">test</el-menu-item>
+                            <el-menu-item index="3-2-2"></el-menu-item>
+                        </el-submenu>
+                    </el-submenu>
+                    <el-submenu index="4">
+                        <template slot="title"><i class="el-icon-setting"></i>金刚经</template>
+                        <el-submenu index="4-1">
+                            <template slot="title">内容</template>
+                            <el-row v-for="(item) in jinGangCatalogues">
+                                <el-menu-item :index="'4-1-' + item.id">
+                                    {{item.catalogue}}
+                                </el-menu-item>
+                            </el-row>
+
+                        </el-submenu>
+                        <el-submenu index="4-2">
+                            <template slot="title">相关介绍</template>
+                            <el-menu-item index="4-2-1">test</el-menu-item>
+                            <el-menu-item index="4-2-2"></el-menu-item>
+                        </el-submenu>
+                    </el-submenu>
+                </el-menu>
+            </el-aside>
+        </el-container>
+    </el-container>
+
+</div>
 </body>
+<script>
+    var Main = {
+        data() {
+            return {
+                gridData: [{}],
+                activeIndex: '7',
+                formLabelWidth: '120px',
+                jinGangCatalogues:[],
+                daoGangCatalogues:[],
+                huangCatalogues:[],
+                yiCatalogues: [
+                    {
+                        catalogue: '乾卦',
+                        id: '1',
+                        link: '/'
+                    },
+                    {
+                        catalogue: '坤卦',
+                        id: '3',
+                        link: '/'
+                    },
+                    {
+                        catalogue: '乾卦 ',
+                        id: '1',
+                        link: '/'
+                    },
+                ]
+            };
+        }
+        ,
+        methods: {
+            selectCatalogue(key, keyPath) {
+                console.log(key)
+                console.log(keyPath)
+            }
+        }
+    };
+    var Ctor = Vue.extend(Main)
+    new Ctor().$mount('#app')
+
+</script>
 </html>

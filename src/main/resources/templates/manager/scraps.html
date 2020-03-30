@@ -5,6 +5,7 @@
     <title>URL 工具类</title>
 </head>
 
+<script src="/plugs/axios/axios.min.js"></script>
 <link rel="stylesheet" href="/css/common.css">
 <!-- import Vue before Element -->
 <script src="/plugs/ele/vue.js"></script>
@@ -12,54 +13,73 @@
 <script src="/plugs/ele/index.js"></script>
 <link rel="stylesheet" href="/plugs/ele/theme/index.css">
 
-
 <body>
 <div id="app">
+    <el-row>
+        <el-col :span="24">
+            <el-container>
+                <el-header>
+                    <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal"
+                             active-text-color="#ffd04b" background-color="#545c64">
+                        <el-menu-item index="1"><a href="/">工具中心</a></el-menu-item>
+                        <el-menu-item index="2"><a href="/manager/daily.html">行程</a></el-menu-item>
+                        <el-menu-item index="3"><a href="/manager/scraps.html">随手记</a></el-menu-item>
+                        <el-menu-item index="4"><a href="/manager/jargon.html">行话</a></el-menu-item>
+                        <el-menu-item index="5"><a href="/manager/diary.html">日记</a></el-menu-item>
+                        <el-menu-item index="6"><a href="/manager/others.html">其他</a></el-menu-item>
+            <el-menu-item index="7"><a href="/daonism/yijing.html">道学</a></el-menu-item>
+                    </el-menu>
+                </el-header>
 
-    <el-container>
-        <el-header>
-            <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal"
-                     active-text-color="#ffd04b" background-color="#545c64">
-                <el-menu-item index="1"><a href="/">工具中心</a></el-menu-item>
-                <el-menu-item index="2-1"><a href="/manager/daily.html">行程</a></el-menu-item>
-                <el-menu-item index="2-2"><a href="/manager/scraps.html">随手记</a></el-menu-item>
-                <el-menu-item index="2-3"><a  href="/manager/jargon.html">行话</a></el-menu-item>
-                <el-menu-item index="2-4"><a  href="/manager/diary.html">日记</a></el-menu-item>
-                <el-menu-item index="2-5"><a  href="/manager/finance.html">金融</a></el-menu-item>
-            </el-menu>
-        </el-header>
+                <el-divider></el-divider>
 
-        <el-container>
-            <el-table
-                    :data="tableData"
-                    sortable
-                    border stripe>
-                <el-table-column
-                        prop="createTime"
-                        label="时间"
-                        width="180" sortable>
-                </el-table-column>
-                <el-table-column sortable
-                                 prop="jargon"
-                                 label="碎话"
-                                 width="180">
-                </el-table-column>
-                <el-table-column sortable
-                                 prop="explain"
-                                 label="状态">
-                </el-table-column>
-                <el-table-column lable="操作">
-                    <template slot-scope="scope">
-                        <el-button type="text" @click="updateState(scope.$index, scope.row)">修改状态</el-button>
-                    </template>
+                <el-row>
+                    <el-col :span="24">
+                        <el-form :model="scrap" :inline="true" class="demo-form-inline">
+                            <el-form-item label="碎话">
+                                <el-input v-model="scrap.message" placeholder="碎话内容"></el-input>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button type="primary" @click="addScarp">添加</el-button>
+                            </el-form-item>
 
-                </el-table-column>
-            </el-table>
+                        </el-form>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="24">
+                        <el-table
+                                :data="tableData"
+                                sortable
+                                border stripe>
+                            <el-table-column
+                                    prop="createTime"
+                                    label="时间"
+                                    width="180" sortable>
+                            </el-table-column>
+                            <el-table-column sortable
+                                             prop="jargon"
+                                             label="碎话"
+                                             width="180">
+                            </el-table-column>
+                            <el-table-column sortable
+                                             prop="explain"
+                                             label="状态">
+                            </el-table-column>
+                            <el-table-column lable="操作">
+                                <template slot-scope="scope">
+                                    <el-button type="text" @click="updateState(scope.$index, scope.row)">修改状态
+                                    </el-button>
+                                </template>
 
-        </el-container>
+                            </el-table-column>
+                        </el-table>
+                    </el-col>
+                </el-row>
 
-    </el-container>
-
+            </el-container>
+        </el-col>
+    </el-row>
 </div>
 </body>
 <script>
@@ -67,15 +87,15 @@
         el: '#app',
         data: function () {
             return {
-                activeIndex: '2',
-                tableData: [{}]
+                activeIndex: '3',
+                tableData: [{}],
+                scrap: {}
             }
         },
         methods: {
-            updateState(index, row) {
-                onsole.log(key, keyPath)
-            }
+            addScarp() {
 
+            }
         }
     });
 </script>
