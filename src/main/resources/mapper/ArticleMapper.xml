@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moon.manager.module.mapper.ArticleMapper">
+  <resultMap id="BaseResultMap" type="com.moon.manager.module.po.Article">
+    <!--@mbg.generated-->
+    <!--@Table TB_ARTICLE-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="article_id" jdbcType="INTEGER" property="articleId" />
+    <result column="article_name" jdbcType="VARCHAR" property="articleName" />
+    <result column="catalogue_id" jdbcType="INTEGER" property="catalogueId" />
+    <result column="catalogue" jdbcType="VARCHAR" property="catalogue" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="data_create_time" jdbcType="TIMESTAMP" property="dataCreateTime" />
+    <result column="data_update_time" jdbcType="TIMESTAMP" property="dataUpdateTime" />
+    <result column="data_is_deleted" jdbcType="TINYINT" property="dataIsDeleted" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, article_id, article_name, catalogue_id, catalogue, content, data_create_time, 
+    data_update_time, data_is_deleted
+  </sql>
+
+  <sql id="Brief_Column_List">
+    <!--@mbg.generated-->
+    id, article_id, article_name, catalogue_id, catalogue
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from TB_ARTICLE
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from TB_ARTICLE
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.moon.manager.module.po.Article" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into TB_ARTICLE (article_id, article_name, catalogue_id, 
+      catalogue, content, data_create_time, 
+      data_update_time, data_is_deleted)
+    values (#{articleId,jdbcType=INTEGER}, #{articleName,jdbcType=VARCHAR}, #{catalogueId,jdbcType=INTEGER}, 
+      #{catalogue,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}, #{dataCreateTime,jdbcType=TIMESTAMP}, 
+      #{dataUpdateTime,jdbcType=TIMESTAMP}, #{dataIsDeleted,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.moon.manager.module.po.Article" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into TB_ARTICLE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="articleId != null">
+        article_id,
+      </if>
+      <if test="articleName != null">
+        article_name,
+      </if>
+      <if test="catalogueId != null">
+        catalogue_id,
+      </if>
+      <if test="catalogue != null">
+        catalogue,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="dataCreateTime != null">
+        data_create_time,
+      </if>
+      <if test="dataUpdateTime != null">
+        data_update_time,
+      </if>
+      <if test="dataIsDeleted != null">
+        data_is_deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="articleId != null">
+        #{articleId,jdbcType=INTEGER},
+      </if>
+      <if test="articleName != null">
+        #{articleName,jdbcType=VARCHAR},
+      </if>
+      <if test="catalogueId != null">
+        #{catalogueId,jdbcType=INTEGER},
+      </if>
+      <if test="catalogue != null">
+        #{catalogue,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dataCreateTime != null">
+        #{dataCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dataUpdateTime != null">
+        #{dataUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dataIsDeleted != null">
+        #{dataIsDeleted,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.moon.manager.module.po.Article">
+    <!--@mbg.generated-->
+    update TB_ARTICLE
+    <set>
+      <if test="articleId != null">
+        article_id = #{articleId,jdbcType=INTEGER},
+      </if>
+      <if test="articleName != null">
+        article_name = #{articleName,jdbcType=VARCHAR},
+      </if>
+      <if test="catalogueId != null">
+        catalogue_id = #{catalogueId,jdbcType=INTEGER},
+      </if>
+      <if test="catalogue != null">
+        catalogue = #{catalogue,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dataCreateTime != null">
+        data_create_time = #{dataCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dataUpdateTime != null">
+        data_update_time = #{dataUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dataIsDeleted != null">
+        data_is_deleted = #{dataIsDeleted,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.moon.manager.module.po.Article">
+    <!--@mbg.generated-->
+    update TB_ARTICLE
+    set article_id = #{articleId,jdbcType=INTEGER},
+      article_name = #{articleName,jdbcType=VARCHAR},
+      catalogue_id = #{catalogueId,jdbcType=INTEGER},
+      catalogue = #{catalogue,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR},
+      data_create_time = #{dataCreateTime,jdbcType=TIMESTAMP},
+      data_update_time = #{dataUpdateTime,jdbcType=TIMESTAMP},
+      data_is_deleted = #{dataIsDeleted,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="listAll" resultMap="BaseResultMap">
+    select
+    <include refid="Brief_Column_List" />
+    from TB_ARTICLE
+  </select>
+
+  <select id="listByArticleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Brief_Column_List" />
+    from TB_ARTICLE
+    where article_id = #{articleId}
+  </select>
+</mapper>
