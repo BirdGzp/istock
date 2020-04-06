@@ -110,7 +110,39 @@
                         </el-table>
                         </template>
                     </el-card>
+                    <br/>
+                    <el-card class="box-card">
+                        <div slot="header" class="clearfix">
+                            <span>今日事件</span>
+                        </div>
+                        <el-table
+                                stripe
+                                border
+                                :data="tomorrowEvents">
+                            <el-table-column
+                                    prop="index"
+                                    label="">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="willDo"
+                                    label="事件">
+                            </el-table-column>
+                            <el-table-column
+                                    label="状态">
+                                <template slot-scope="scope">
+                                    <el-switch
+                                            v-model="scope.row.state"
+                                            active-color="#13ce66"
+                                            inactive-color="#ff4949"
+                                            @change="changeState(scope.$index, scope.row)"
+                                            change>
+                                    </el-switch>
+                                </template>
+                            </el-table-column>
 
+                        </el-table>
+                        </template>
+                    </el-card>
                 </el-col>
 
             </el-row>
