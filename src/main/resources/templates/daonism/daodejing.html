@@ -193,13 +193,7 @@
             return {
                 activeIndex: '2',
                 dailyData: [{
-                    date: '2020-03-28',
-                    willDo: "study 看电视 打游戏 DNF 地下城 道学 阿萨德阿萨德桉树大声道桉树大"
-                },
-                    {
-                        date: '2020-03-27',
-                        willDo: "play"
-                    }],
+                }],
                 dateMap: new Map(),
                 willDo: '',
                 daily: {
@@ -265,7 +259,7 @@
     }
 
 
-    axios.post('/api/data', {})
+    axios.post('/api/article/1', {})
         .then(function (response) {
             dailyDataToDateMap()
 

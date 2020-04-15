@@ -12,7 +12,7 @@
 <script src="/plugs/ele/index.js"></script>
 <link rel="stylesheet" href="/plugs/ele/theme/index.css">
 
-
+<script src="/plugs/axios/axios.min.js"></script>
 <body>
 <div id="app">
 
@@ -109,8 +109,9 @@
 </div>
 </body>
 <script>
-    var Main = {
-        data() {
+    const vue = new Vue({
+        el: '#app',
+        data: function () {
             return {
                 gridData: [{}],
                 activeIndex: '7',
@@ -118,6 +119,7 @@
                 jinGangCatalogues:[],
                 daoGangCatalogues:[],
                 huangCatalogues:[],
+                daoCatalogues:[],
                 yiCatalogues: [
                     {
                         catalogue: '乾卦',
@@ -142,11 +144,18 @@
             selectCatalogue(key, keyPath) {
                 console.log(key)
                 console.log(keyPath)
+                
             }
         }
-    };
-    var Ctor = Vue.extend(Main)
-    new Ctor().$mount('#app')
+    });
 
+    axios.post('/api/article/1', {})
+        .then(function (response) {
+            vue.yiCatalogues = response.data
+            console.log(response.data)
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 </script>
 </html>
