@@ -127,11 +127,6 @@
             <artifactId>webmagic-extension</artifactId>
             <version>0.7.3</version>
         </dependency>
-        <dependency>
-            <groupId>com.moon</groupId>
-            <artifactId>infrastructure-base</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
