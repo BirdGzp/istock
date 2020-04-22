@@ -159,4 +159,12 @@
     from TB_ARTICLE
     where article_id = #{articleId}
   </select>
+
+  <select id="getArticleByArticleIdAndCatalogueId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from TB_ARTICLE
+    where article_id = #{articleId}
+    and catalogue_id = #{catalogueId}
+  </select>
 </mapper>

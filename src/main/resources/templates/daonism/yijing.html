@@ -103,9 +103,15 @@
                     </el-submenu>
                 </el-menu>
             </el-aside>
+            <el-main>
+                <h1>{{articleName}}</h1>
+
+                <h2>{{catalogue}}</h2>
+
+                {{content}}
+            </el-main>
         </el-container>
     </el-container>
-
 </div>
 </body>
 <script>
@@ -136,14 +142,26 @@
                         id: '1',
                         link: '/'
                     },
-                ]
+                ],
+                content: '文章内容',
+                catalogue: 'title',
+                articleName: '文章名'
             };
         }
         ,
         methods: {
             selectCatalogue(key, keyPath) {
-                console.log(key)
+                var catalogId = key.split("-")[2];
                 console.log(keyPath)
+                axios.post('/api/article/1/catalogue/' + catalogId, {})
+                    .then(function (response) {
+                        vue.content = response.data.content;
+                        vue.catalogue = response.data.catalogue;
+                        vue.articleName = response.data.articleName
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
                 
             }
         }

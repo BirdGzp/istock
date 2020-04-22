@@ -4,6 +4,8 @@ import com.moon.manager.module.po.Article;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 /**
 * @Project: manager
 * @Package com.moon.manager.module.mapper
@@ -30,4 +32,6 @@ public interface ArticleMapper
 	List<Article> listAll();
 
 	List<Article> listByArticleId(Integer articleId);
+
+	Article getArticleByArticleIdAndCatalogueId(@Param("articleId") Integer articleId, @Param("catalogueId")Integer catalogueId);
 }

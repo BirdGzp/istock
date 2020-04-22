@@ -30,4 +30,6 @@ public interface ArticleService
 	List<Article> listAll();
 
 	List<Article> listByArticleId(Integer articleId);
+
+	Article getArticleByArticleIdAndCatalogueId(Integer articleId, Integer catalogueId);
 }

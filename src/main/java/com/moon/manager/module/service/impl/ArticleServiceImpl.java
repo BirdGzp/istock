@@ -70,4 +70,11 @@ public class ArticleServiceImpl implements ArticleService
 	{
 		return articleMapper.listByArticleId(articleId);
 	}
+
+	@Override
+	public Article getArticleByArticleIdAndCatalogueId(Integer articleId, Integer catalogueId)
+	{
+		return articleMapper.getArticleByArticleIdAndCatalogueId(articleId, catalogueId);
+	}
+
 }

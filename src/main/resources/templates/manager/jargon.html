@@ -57,7 +57,7 @@
                                 <el-input v-model="jargon.message" placeholder="行话内容"></el-input>
                             </el-form-item>
                             <el-form-item label="释义：">
-                                <el-input v-model="jargon.explain" placeholder="释义"></el-input>
+                                <el-input v-model="jargon.explain" placeholder="释义" width="300"></el-input>
                             </el-form-item>
                             <el-form-item>
                                 <el-button type="primary" @click="createJargon">添加</el-button>
@@ -76,16 +76,18 @@
                             <el-table-column
                                     prop="type"
                                     label="类型"
-                                    width="180" sortable>
+                                    :filters=typeFilters
+                                    :filter-method="filterHandler"
+                                    width="200" sortable>
                             </el-table-column>
                             <el-table-column sortable
                                              prop="jargon"
                                              label="行话"
-                                             width="180">
+                                             width="200">
                             </el-table-column>
                             <el-table-column sortable
                                              prop="explain"
-                                             width="720"
+                                             width="1400"
                                              label="释义">
                             </el-table-column>
                             <el-table-column>
@@ -93,18 +95,7 @@
                                     <el-button @click="showEditForm(scope.$index, scope.row)" icon="el-icon-edit">
                                     </el-button>
 
-                                    <el-popover
-                                            placement="top"
-                                            width="160"
-                                            v-model="deletePopVisible">
-                                        <p>确定删除吗？</p>
-                                        <div style="text-align: right; margin: 0">
-                                            <el-button size="mini" type="text" @click="visible = false">取消</el-button>
-                                            <el-button type="primary" size="mini" @click="deleteJargon(scope.row)">确定
-                                            </el-button>
-                                        </div>
-                                        <el-button slot="reference">删除</el-button>
-                                    </el-popover>
+                                    <el-button @click="showDeleteForm(scope.row)">删除</el-button>
                                 </template>
 
                             </el-table-column>
@@ -116,6 +107,20 @@
             </el-container>
         </el-col>
     </el-row>
+
+    <el-dialog
+            title="提示"
+            :visible.sync="deletePopVisible"
+            width="30%"
+    >
+        <span>删除当前行话？</span>
+        <span slot="footer" class="dialog-footer">
+    <el-button @click="deletePopVisible = false">取 消</el-button>
+    <el-button type="primary" @click="deleteJargon()">确 定</el-button>
+  </span>
+    </el-dialog>
+
+
     <el-dialog title="修改行话" :visible.sync="editJargonVisible">
         <el-form ref="form" :model="jargonSelect" label-position="right" label-width="80px"
                  style="text-align:left">
@@ -146,7 +151,7 @@
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="editJargon">修改</el-button>
-                <el-button>取消</el-button>
+                <el-button @click="editJargonVisible = false">取消</el-button>
             </el-form-item>
         </el-form>
     </el-dialog>
@@ -164,7 +169,13 @@
                 options: [],
                 editJargonVisible: false,
                 deletePopVisible: false,
-                jargonSelect: {}
+                jargonSelect: {
+                    jargon: '',
+                    type: '',
+                    explain: '',
+                    id: ''
+                },
+                typeFilters:[]
             }
         },
         methods: {
@@ -175,6 +186,10 @@
                 vue.jargonSelect.explain = row.explain;
                 vue.jargonSelect.id = row.id;
                 console.log("row 信息", row);
+            },
+            showDeleteForm( row) {
+                vue.jargonSelect.id = row.id;
+                vue.deletePopVisible = true
             },
             editJargon() {
                 vue.editJargonVisible = false;
@@ -192,54 +207,72 @@
                         console.log(error);
                     });
             },
-            deleteJargon(row) {
-                console.log("row 信息", row.id);
+            async deleteJargon() {
                 vue.deletePopVisible = false;
-                axios.post('/api/jargon/delete/' + row.id, {})
+                await axios.post('/api/jargon/delete/' + vue.jargonSelect.id, {})
                     .then(function (response) {
 
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
+                await getAll();
             },
-            createJargon() {
+            async createJargon() {
                 var jargonNew = new Object();
                 jargonNew.type = vue.jargon.type;
                 jargonNew.explain = vue.jargon.explain;
                 jargonNew.jargon = vue.jargon.message;
                 console.log(jargonNew)
-                axios.post('/api/jargon/insert', jargonNew)
+                await axios.post('/api/jargon/insert', jargonNew)
                     .then(function (response) {
 
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
-                axios.post('/api/jargon/all', {})
-                    .then(function (response) {
-                        vue.tableData = response.data;
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
+                await getAll();
             },
+
+            filterHandler(value, row, column) {
+                const property = column['property'];
+                return row[property] === value;
+            }
         }
     });
-    axios.post('/api/jargon/all', {})
-        .then(function (response) {
-            vue.tableData = response.data;
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-    axios.get('/api/type/all', {})
-        .then(function (response) {
-            vue.options = response.data;
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+     function getAll() {
+        axios.post('/api/jargon/all', {})
+            .then(function (response) {
+                vue.tableData = response.data;
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    getAll();
+
+
+    function getAllType()
+    {
+        axios.get('/api/type/all', {})
+            .then(function (response) {
+                vue.options = response.data;
+                vue.typeFilters = new Array();
+                for (var i in vue.options) {
+                    var obj  = new Object();
+                    obj.value = vue.options[i].type;
+                    obj.text = vue.options[i].type;
+                    vue.typeFilters.push(obj);
+                }
+                console.log(vue.typeFilters);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    getAllType();
 </script>
 
 </html>

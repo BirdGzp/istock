@@ -49,6 +49,7 @@ public class JargonApiController
 	public void deleteJargon(@PathVariable Integer id)
 	{
 		log.info("删除 ：{}", id);
+		jargonService.deleteByPrimaryKey(id);
 	}
 
 	@ResponseBody

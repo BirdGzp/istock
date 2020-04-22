@@ -34,4 +34,10 @@ public class ArticleApiController
 	{
 		return articleService.listByArticleId(articleId);
 	}
+
+	@PostMapping("/api/article/{articleId}/catalogue/{catalogueId}")
+	public Article getArticleByCatalogueId(@PathVariable("articleId") Integer articleId, @PathVariable("catalogueId") Integer catalogueId)
+	{
+		return articleService.getArticleByArticleIdAndCatalogueId(articleId, catalogueId);
+	}
 }
