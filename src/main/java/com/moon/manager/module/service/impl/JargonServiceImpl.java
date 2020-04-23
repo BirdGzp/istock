@@ -1,5 +1,6 @@
 package com.moon.manager.module.service.impl;
 
+import com.moon.manager.constant.CommonConstant;
 import com.moon.manager.module.po.Type;
 import com.moon.manager.module.service.TypeService;
 import lombok.extern.slf4j.Slf4j;
@@ -57,7 +58,10 @@ public class JargonServiceImpl implements JargonService
 	@Override
 	public int deleteByPrimaryKey(Integer id)
 	{
-		return jargonMapper.deleteByPrimaryKey(id);
+		Jargon jargon = new Jargon();
+		jargon.setId(id);
+		jargon.setDataIsDeleted((byte) 1);
+		return jargonMapper.updateByPrimaryKeySelective(jargon);
 	}
 
 	@Override
@@ -76,6 +80,7 @@ public class JargonServiceImpl implements JargonService
 		}
 		record.setTypeId(typeId);
 		log.info("插入 行话记录， 内容： {}", record);
+		record.setDataIsDeleted(CommonConstant.DATA_NOT_DELETE);
 		return jargonMapper.insert(record);
 	}
 

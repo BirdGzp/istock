@@ -17,6 +17,10 @@
         <!--@mbg.generated-->
         id, type_id, `type`, jargon, `explain`, data_create_time, data_update_time, data_is_deleted
     </sql>
+
+    <sql id="baseCondition">
+        data_is_deleted = 0
+    </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         <!--@mbg.generated-->
         select
@@ -134,6 +138,8 @@
         select
         <include refid="Base_Column_List"/>
         from TB_JARGON
+        where
+        <include refid="baseCondition"/>
     </select>
 
 
