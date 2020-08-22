@@ -40,7 +40,7 @@
                                 <el-input v-model="scrap.message" placeholder="碎话内容"></el-input>
                             </el-form-item>
                             <el-form-item>
-                                <el-button type="primary" @click="addScarp">添加</el-button>
+                                <el-button type="primary" @click="addScrap">添加</el-button>
                             </el-form-item>
 
                         </el-form>
@@ -53,18 +53,14 @@
                                 sortable
                                 border stripe>
                             <el-table-column
-                                    prop="createTime"
+                                    prop="dataCreateTime"
                                     label="时间"
                                     width="180" sortable>
                             </el-table-column>
                             <el-table-column sortable
-                                             prop="jargon"
+                                             prop="scraps"
                                              label="碎话"
                                              width="180">
-                            </el-table-column>
-                            <el-table-column sortable
-                                             prop="explain"
-                                             label="状态">
                             </el-table-column>
                             <el-table-column lable="操作">
                                 <template slot-scope="scope">
@@ -93,10 +89,31 @@
             }
         },
         methods: {
-            addScarp() {
+            async addScrap() {
+                var scraps = new Object();
+                scraps.scraps = vue.scrap.message;
+                console.log(scraps)
+                await axios.post('/api/scraps/add', scraps)
+                    .then(function (response) {
 
-            }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                await getAll();
+            },
         }
     });
+
+    function getAll() {
+        axios.post('/api/scraps/all', {})
+            .then(function (response) {
+                vue.tableData = response.data;
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+    getAll();
 </script>
 </html>

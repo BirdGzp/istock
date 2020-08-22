@@ -3,7 +3,7 @@
 // (powered by Fernflower decompiler)
 //
 
-package com.moon.manager;
+package com.moon.manager.util;
 
 import java.sql.Timestamp;
 import java.text.ParseException;

@@ -11,4 +11,5 @@ public class CommonConstant
 {
 	public static final byte DATA_NOT_DELETE = (byte)0;
 	public static final byte DATA_DELETE = (byte)1;
+	public static final String VALID = "VALID";
 }

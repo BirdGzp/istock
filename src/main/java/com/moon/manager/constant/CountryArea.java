@@ -1,4 +1,4 @@
-package com.moon.manager;
+package com.moon.manager.constant;
 
 import org.apache.commons.lang3.StringUtils;
 

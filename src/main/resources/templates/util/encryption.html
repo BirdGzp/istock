@@ -10,6 +10,7 @@
 <script src="/plugs/ele/vue.js"></script>
 <!-- import JavaScript -->
 <script src="/plugs/ele/index.js"></script>
+<script src="/js/md5.js"></script>
 
 <body>
 <div id="app">
@@ -39,6 +40,9 @@
                             <el-menu-item index="1-1-2"><el-link href="/util/singleStringUtil.html">单字符串</el-link></el-menu-item>
                             <el-menu-item index="1-1-3"><el-link href="/util/multipleStringUtil.html">多字符串</el-link></el-menu-item>
                             <el-menu-item index="1-1-4">加解密</el-menu-item>
+                            <el-menu-item index="1-1-5">
+                                <el-link href="/util/dateTime.html">时间</el-link>
+                            </el-menu-item>
                         </el-submenu>
                         <el-submenu index="1-2">
                             <template slot="title">自动编码工具</template>
@@ -66,7 +70,104 @@
                     </el-submenu>
                 </el-menu>
             </el-aside>
+            <el-main>
+                <h1>md5 加密(盐值、次数)</h1>
+                <el-col :span="8">
+                    <el-input
+                            type="textarea"
+                            :rows="10"
+                            height="20px"
+                            v-model="md5_string"
+                            placeholder="请输入待加密字符串">
+                    </el-input>
+                </el-col>
+                <el-col :span="8">
+                    <el-input
+                            type="textarea"
+                            :rows="10"
+                            height="20px"
+                            v-model="md5_seed"
+                            placeholder="请输入盐值">
+                    </el-input>
+                </el-col>
+                <el-col :span="8">
+                    <el-input
+                            type="textarea"
+                            :rows="10"
+                            height="20px"
+                            v-model="md5_result"
+                            placeholder="结果">
+                    </el-input>
+                </el-col>
+                <el-col :span="24">
+                    <el-button type="primary" @click="md5Small32">小写32位(基本)</el-button>
+                    <el-button type="primary" @click="md5Max32">大写32位</el-button>
+                    <el-button type="primary" @click="md5Small16">小写16位</el-button>
+                    <el-button type="primary" @click="md5Max16">大写16位</el-button>
+                </el-col>
+                <h1>base64 加/解密</h1>
+                <el-row>
+                    <el-col :span="10">
+                        <el-input
+                                type="textarea"
+                                :rows="10"
+                                height="200px"
+                                v-model="cipher_text"
+                                placeholder="密文">
+                        </el-input>
+                    </el-col>
+                    <el-col :span="2">
+                        <el-row>
+                            <el-button type="primary" @click="decipher(cipher_text)">解密</el-button>
+                        </el-row>
+                        <br/>
+                        <el-row>
+                            <el-button type="primary" @click="encrypt(plain_text)">加密</el-button>
+                        </el-row>
+                    </el-col>
+                    <el-col :span="10">
+                        <el-input
+                                type="textarea"
+                                :rows="10"
+                                height="200px"
+                                v-model="plain_text"
+                                placeholder="明文">
+                        </el-input>
+                    </el-col>
+                </el-row>
+                <h1>URL 编码/解码</h1>
+                <el-row>
+                    <el-col :span="10">
+                        <el-input
+                                type="textarea"
+                                :rows="10"
+                                height="200px"
+                                v-model="source_url"
+                                placeholder="原始URL">
+                        </el-input>
+                    </el-col>
+                    <el-col :span="2">
+                        <el-row>
+                            <el-button type="primary" @click="encode(source_url)">编码</el-button>
+                        </el-row>
+                        <br/>
+                        <el-row>
+                            <el-button type="primary" @click="decode(target_url)">解码</el-button>
+                        </el-row>
 
+                    </el-col>
+                    <el-col :span="10">
+                        <el-input
+                                type="textarea"
+                                :rows="10"
+                                v-model="target_url"
+                                height="200px"
+                                v-model="resource"
+                                placeholder="编码后的url">
+                        </el-input>
+                    </el-col>
+                </el-row>
+            </el-main>
         </el-container>
 
     </el-container>
@@ -78,17 +179,47 @@
         el: '#app',
         data: function () {
             return {
-                source_json: '',
-                target_json: '',
-                source_url: '',
-                target_url: '',
+                md5_string: '',
+                md5_seed: '',
+                md5_result: '',
                 cipher_text: '',
                 plain_text: '',
-                activeIndex: '1'
+                activeIndex: '1',
+                source_url: '',
+                target_url: '',
             }
         },
         methods: {
 
+            encode(source_url) {
+                vue.target_url = encodeURIComponent(source_url);
+            },
+
+            decode(target_url) {
+                vue.source_url = decodeURIComponent(target_url);
+            },
+
+            /** 解密 */
+            decipher(cipher_text) {
+                vue.plain_text = decodeURIComponent(escape(window.atob(cipher_text)));
+            },
+            /** 加密 */
+            encrypt(plain_text) {
+                vue.cipher_text = window.btoa(unescape(encodeURIComponent(plain_text)));
+            },
+
+            md5Max32(){
+                vue.md5_result = hex_md5(vue.md5_string + vue.md5_seed).toUpperCase()
+            },
+            md5Small32(){
+                vue.md5_result = hex_md5(vue.md5_string + vue.md5_seed)
+            },
+            md5Max16(){
+                vue.md5_result = hex_md5(vue.md5_string + vue.md5_seed).toUpperCase().substring(8, 24)
+            },
+            md5Small16(){
+                vue.md5_result = hex_md5(vue.md5_string + vue.md5_seed).substring(8, 24)
+            },
         }
     });
 </script>
