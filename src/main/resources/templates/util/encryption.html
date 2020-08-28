@@ -10,6 +10,7 @@
 <script src="/plugs/ele/vue.js"></script>
 <!-- import JavaScript -->
 <script src="/plugs/ele/index.js"></script>
+<script src="https://cdn.bootcss.com/jsencrypt/3.0.0-beta.1/jsencrypt.js"></script>
 <script src="/js/md5.js"></script>
 
 <body>
@@ -167,6 +168,37 @@
                         </el-input>
                     </el-col>
                 </el-row>
+                <h1>RSA 加密</h1>
+                <el-col :span="8">
+                    <el-input
+                            type="textarea"
+                            :rows="10"
+                            height="20px"
+                            v-model="rsa_string"
+                            placeholder="请输入待加密字符串">
+                    </el-input>
+                </el-col>
+                <el-col :span="8">
+                    <el-input
+                            type="textarea"
+                            :rows="10"
+                            height="20px"
+                            v-model="rsa_seed"
+                            placeholder="请输秘钥">
+                    </el-input>
+                </el-col>
+                <el-col :span="8">
+                    <el-input
+                            type="textarea"
+                            :rows="10"
+                            height="20px"
+                            v-model="rsa_result"
+                            placeholder="结果">
+                    </el-input>
+                </el-col>
+                <el-col :span="24">
+                    <el-button type="primary" @click="rsa">rsa加密</el-button>
+                </el-col>
             </el-main>
         </el-container>
 
@@ -187,6 +219,10 @@
                 activeIndex: '1',
                 source_url: '',
                 target_url: '',
+                rsa_string:'',
+                rsa_seed:'',
+                rsa_result:''
+
             }
         },
         methods: {
@@ -220,6 +256,15 @@
             md5Small16(){
                 vue.md5_result = hex_md5(vue.md5_string + vue.md5_seed).substring(8, 24)
             },
+            rsa()
+            {
+                var encrypt = new JSEncrypt();
+//encrypt.setPrivateKey('-----BEGIN RSA PRIVATE KEY-----'+PRIVATE_KEY+'-----END RSA PRIVATE KEY-----');
+                encrypt.setPublicKey('-----BEGIN PUBLIC KEY-----' + vue.rsa_seed + '-----END PUBLIC KEY-----');
+                console.log(" vue.rsa_seed: " + vue.rsa_seed)
+                console.log(" vue.rsa_string: " + vue.rsa_string)
+                vue.rsa_result = encrypt.encrypt(JSON.stringify(vue.rsa_string));
+            }
         }
     });
 </script>
