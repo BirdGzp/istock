@@ -26,6 +26,7 @@ public class IpInterceptor extends HandlerInterceptorAdapter
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception
 	{
 		log.info("IP: {} , 访问 URL {}",  IpUtil.getRemoteAddr(request), request.getServletPath());
+		log.info("请求路径为 [{}], [{}], [{}]", request.getRequestURI(), request.getRequestURL(), request.getMethod());
 		return true;
 	}
 
